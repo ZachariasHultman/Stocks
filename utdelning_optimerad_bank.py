@@ -50,12 +50,10 @@ def build_graph(start, bank, excell_data, graph, best_stock):
                 history.append(list(best_stock))
                 # recursively call the function again, start in the just bought stock
                 build_graph(dev_tot, bank_tmp, excell_data, graph, best_stock)
-
                 if len(history) != 0:
                     best_stock = history.pop()
                 else:
                     best_stock = []
-
     # if there are money left after maximum amount of stocks bought, reset the amount
     # and buy as much stocks as the magic number allows again
     if bank > 0 and hidden_bank.count(bank) < 1 and start != 0 and graph.out_degree(start) < (total_amount_stocks-1):
