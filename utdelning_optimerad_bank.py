@@ -74,7 +74,7 @@ def build_graph(start, bank, excell_data, graph, best_stock):
 #                        best_stock_history_tmp.append(list(best_stock_tmp))
 
                     max_dev = dev_tot
-                    print(max_dev)
+#                    print(max_dev)
                 # add the bought stock to the stack
                 best_stock_history.append(list(best_stock))
                 history.append(list(best_stock))
@@ -106,12 +106,15 @@ def find_cheapest_edge(edge_data):
 
 
 def gen_data_to_excell(stocks, excell_data, file_loc):
-    writer = ExcelWriter(file_loc)
+    writer = ExcelWriter(file_loc,engine='xlsxwriter')
+    print(stocks)
     for stock in excell_data.index:
-        amount = stocks.count(excell_data.iloc[stock, 0])
-        df = pd.DataFrame({excell_data.iloc[stock, 0]: [amount]})
-        df.to_excel(writer, 'Result', index=stock)
-        writer.save()
+        amount=len(list(filter(lambda i: i['name'] == excell_data.iloc[stock, 0] , stocks)))
+        df1 = pd.DataFrame({excell_data.iloc[stock, 0]})
+        df2 = pd.DataFrame({amount})
+        df1.to_excel(writer, 'Result', startcol=0,startrow=stock,header=None, index=False)
+        df2.to_excel(writer, 'Result', startcol=1,startrow=stock,header=None, index=False)
+    writer.save()
 
 
 # import excell. Change if you move the file
@@ -130,9 +133,9 @@ data_write = pd.read_excel(file_location_write,
                            sheet_name='Result', keep_default_na=False)
 # The amount of money i have to buy for
 #bank=4685 borde ge en dev på 178.95 typ
-bank = 4685
+bank = 4685*2
 # initialize
-magic_number = 5
+magic_number = 2
 # first node dev is 0 since nothing has been bought, and maximum devdidend is now 0 since no devidend yet
 start = 0
 max_dev = 0
@@ -157,8 +160,8 @@ for stock in data.index:
 best_stock_history = []
 max_dev_hist=[]
 history=[]
-best_stock_tmp=[]
-best_stock_history_tmp=[]
+#best_stock_tmp=[]
+#best_stock_history_tmp=[]
 # generates all possibe combinations of the given stocks, bank and magical number
 build_graph(start, bank, data, graph, best_stock)
 
@@ -166,9 +169,6 @@ build_graph(start, bank, data, graph, best_stock)
 #nx.draw(graph, with_labels=True)
 # plt.draw()
 # plt.show()
-
-print(best_stock_history_tmp)
-print('br')
 
 # run djikstra to find the cheapest path to the maximum devidend
 # path is the nodes
@@ -200,4 +200,4 @@ print("Djikstra path :%s ",ultimate_stock)
 print(path)
 
 # denna gör inte riktigt det den ska än
-gen_data_to_excell(ultimate_stock, data, file_location_write)
+gen_data_to_excell(cheapest_magic_path, data, file_location_write)
