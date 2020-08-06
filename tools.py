@@ -29,7 +29,7 @@ def find_cheapest_edge(edge_data):
             ultimate_stock = edge_data[k]['key']
     return ultimate_stock
 
-def gen_data_to_excell(stocks, excell_data, file_loc):
+def gen_data_to_excell(stocks, excell_data,max_dev, file_loc):
     writer = ExcelWriter(file_loc,engine='xlsxwriter')
     for stock in excell_data.index:
         amount=len(list(filter(lambda i: i['name'] == excell_data.iloc[stock, 0] , stocks)))
@@ -37,6 +37,8 @@ def gen_data_to_excell(stocks, excell_data, file_loc):
         df2 = pd.DataFrame({amount})
         df1.to_excel(writer, 'Result', startcol=0,startrow=stock,header=None, index=False)
         df2.to_excel(writer, 'Result', startcol=1,startrow=stock,header=None, index=False)
+    df3 = pd.DataFrame({max_dev})
+    df3.to_excel(writer, 'Result', startcol=4,startrow=stock+1,header=['Yearly devidend'], index=False)
     writer.save()
     
     
@@ -264,7 +266,9 @@ def multi_source_dijkstra(G, sources, target=None, cutoff=None,
     try:
         return (dist[target], paths[target])
     except KeyError:
-        raise ("No path to {}.".format(target))
+#        raise ("No path to {}.".format(target))
+        print('except')
+        
         
 def _dijkstra_multisource(G, sources, weight, pred=None, paths=None,
                           cutoff=None, target=None,special=False,magic_number=0):
@@ -334,27 +338,63 @@ def _dijkstra_multisource(G, sources, weight, pred=None, paths=None,
             raise nx.NodeNotFound("Source {} not in G".format(source))
         seen[source] = 0
         push(fringe, (0, next(c), source))
+        prev_v=0
+        cost_hist=[]
+        
     while fringe:
         (d, _, v) = pop(fringe)
-
-        print('d',d)
-        print('v',v)
+#
+#        print('d',d)
+#        print('v',v)
+#        print('prev_v',prev_v)
         if v in dist:
             continue  # already searched this node.
         dist[v] = d           
         if v == target:
             break
-
+        
         for u, e in G_succ[v].items():
-            print('u',u)
+#            print('u',u)
 #            gåt nog att ändra e (egdes) till OK_e (okey edges)
 #            frågan är väl hur man ska kunna nollställa dessa okey edges. och var ska man lägga till att en edge har användts?
 #            e är en dict
-            print('e',e)
-            
-            
-            cost = weight(v, u, e)
+#            funkar inte än
+#            print('e',e)
+            e_backup=e
+            counter=0
+            flag=False
+            while True:
+                try:    
+                    cost = weight(v, u, e)
+                except:
+#                    counter=counter+1
+#                    e=e_back_up
+#                    magic_number=magic_number+1
+#                    print(magic_number)
+                    flag=True 
+                    break
+                if cost_hist.count(cost)>=magic_number:
+#                    for key in e.items():
+#                        print('key',key[1].get('weight'))
+                    print('cost',cost)
+#                    print('u',u)
+#                    print('e before',e)
+                    e=[i for i in e.items() if not (i[1].get('weight')==cost)]
+                    print('e',e)
+#                    print('e_tmp',e_tmp) 
+                    print('remove')
+                else:
+                     cost_hist.append(cost)   
+                     print('append')
+                     break
 
+                
+#            if counter>0:
+#                magic_number=magic_number-counter
+            if flag==True:
+                flag=False
+                continue 
+                
             if cost is None:
                 continue
             vu_dist = dist[v] + cost
@@ -375,8 +415,9 @@ def _dijkstra_multisource(G, sources, weight, pred=None, paths=None,
             elif vu_dist == seen[u]:
                 if pred is not None:
                     pred[u].append(v)
+        prev_v=v
 
     # The optional predecessor and path dictionaries can be accessed
     # by the caller via the pred and paths objects passed as arguments.
-    print('dist',dist)
+#    print('dist',dist)
     return dist

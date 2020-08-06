@@ -21,6 +21,7 @@ def build_graph(start, bank, excell_data, graph, best_stock):
     global bank_init
     global history
     global max_dev_hist
+    global max_dev_list
     stock=-1
     while True:
         stock=stock+1
@@ -61,6 +62,7 @@ def build_graph(start, bank, excell_data, graph, best_stock):
                     max_dev_hist=[]
                     max_dev_hist.append(list(best_stock))
                 max_dev = dev_tot
+                max_dev_list.append(max_dev)
             # add the bought stock to the stacks
             best_stock_history.append(list(best_stock))
             history.append(list(best_stock))
@@ -123,6 +125,7 @@ max_dev_hist=[]
 history=[]
 hist_ind_set=set()
 best_stock_tmp=[]
+max_dev_list=[]
 #best_stock_history_tmp=[]
 # generates all possibe combinations of the given stocks, bank and magical number
 build_graph(start, bank, data, graph, best_stock)
@@ -135,10 +138,11 @@ build_graph(start, bank, data, graph, best_stock)
 # run djikstra to find the cheapest path to the maximum devidend
 # path is the nodes
 # length is the total cost of the path
-#length, path = nx.single_source_dijkstra(graph, 0)          
-length, path = tools.single_source_dijkstra(graph, 0,magic_number=magic_number)          
-#print(path)
-br
+#length, path = nx.single_source_dijkstra(graph, 0)    
+print(max_dev_list)      
+length, path = tools.single_source_dijkstra(graph, 0, 40,magic_number=magic_number)          
+print(path)
+
 
 
 for n in range(0, len(path)-1):

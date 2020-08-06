@@ -38,8 +38,7 @@ def build_magic_graph(start, bank, excell_data, graph, best_stock):
         if start == 0:
             bank=bank_init
             best_stock = []
-            best_stock_tmp=[]
-            magic_number=magic_number_init
+#            magic_number=magic_number_init
         # calc the cost
         cost = stock_rates.iloc[stock].to_numpy()
         # buy the stock
@@ -49,8 +48,6 @@ def build_magic_graph(start, bank, excell_data, graph, best_stock):
         if len(list(filter(lambda i: i['name'] == excell_data.iloc[stock, 0] , best_stock))) < magic_number and bank_tmp >= 0:          
             best_stock.append({'name':excell_data.iloc[stock, 0],'index':stock})
             best_stock=sorted(best_stock, key=lambda i: i['index'])
-#            best_stock_tmp.append({'name':excell_data.iloc[stock, 0],'index':stock,'bank':bank,'bank_tmp':bank_tmp})
-#            best_stock_tmp=sorted(best_stock_tmp, key=lambda i: i['index'])
             hist_ind=0
             counter=0
             for b in best_stock:
@@ -58,7 +55,6 @@ def build_magic_graph(start, bank, excell_data, graph, best_stock):
                 hist_ind=hist_ind+(100**(counter))*b.get('index')
             if hist_ind in hist_ind_set:
                 best_stock=tools.del_first_occurence(best_stock,stock)
-#                best_stock_tmp=tools.del_first_occurence(best_stock_tmp,stock)
                 continue          
             dev = 0            
             for month in range(0, len(calendar.columns)):
@@ -76,7 +72,6 @@ def build_magic_graph(start, bank, excell_data, graph, best_stock):
                 max_dev = dev_tot
             # add the bought stock to the stack
             best_stock_history.append(list(best_stock))
-#            best_stock_history_tmp.append(list(best_stock_tmp))
             history.append(list(best_stock))
             hist_ind_set.add(hist_ind)
             # the key attribute works as name info.
@@ -92,12 +87,10 @@ def build_magic_graph(start, bank, excell_data, graph, best_stock):
 #                best_stock_tmp=best_stock_history_tmp.pop()
             if len(list(filter(None,best_stock)))!=0:
                 best_stock=tools.del_first_occurence(best_stock,stock)
-#                best_stock_tmp=del_first_occurence(best_stock_tmp,stock)
-#                best_stock_tmp=[i for i in best_stock_tmp if not (i['index']==stock)]
         elif stock == max(excell_data.index) and bank>cheapest_stock and len(list(filter(None,best_stock)))==total_amount_stocks*magic_number:
             magic_number=magic_number+1
             print('Increase magic number. New magic:' , magic_number)
-            build_magic_graph(start, bank, excell_data, graph, best_stock,best_stock_tmp)
+            build_magic_graph(start, bank, excell_data, graph, best_stock)
             magic_number=magic_number-1
             print('Decrease magic number. New magic:' , magic_number)
 
@@ -114,13 +107,14 @@ calendar = pd.read_excel(file_location,
 stock_rates = pd.read_excel(file_location,
                             sheet_name='Python', usecols=[15], keep_default_na=False)
 
+magic_number_init = data.loc[0].at['Magic Number']
+
 data_write = pd.read_excel(file_location_write,
                            sheet_name='Result', keep_default_na=False)
 # The amount of money i have to buy for
-bank = 500
-bank_init=bank
+bank_init = data.loc[0].at['Bank']
+bank=bank_init
 # initialize
-magic_number_init = 1
 magic_number = magic_number_init
 # first node dev is 0 since nothing has been bought, and maximum devdidend is now 0 since no devidend yet
 start = 0
@@ -150,10 +144,10 @@ best_stock_tmp=[]
 # generates all possibe combinations of the given stocks, bank and magical number
 build_magic_graph(start, bank, data, graph, best_stock)
 
-# draw graph
+## draw graph
 #nx.draw(graph, with_labels=True)
-# plt.draw()
-# plt.show()
+#plt.draw()
+#plt.show()
 
 
 
@@ -168,4 +162,4 @@ print("Total cost magic : %s kr" % cheapest_magic_path_cost)
 
 
 #generate the data to excell
-tools.gen_data_to_excell(cheapest_magic_path, data, file_location_write)
+tools.gen_data_to_excell(cheapest_magic_path, data, max_dev, file_location_write)
