@@ -17,6 +17,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import math
 import tools
+import tkinter as tk
+from tkinter import filedialog
+from tkinter import ttk
 
 def build_magic_graph(start, bank, excell_data, graph, best_stock):
     global max_dev
@@ -95,24 +98,120 @@ def build_magic_graph(start, bank, excell_data, graph, best_stock):
             print('Decrease magic number. New magic:' , magic_number)
 
 
+#GUI code and functions start------------------------------------------------------
+def browseReadFiles():
+    global filenameRead
+    filenameRead=filedialog.askopenfilename(initialdir='/',
+                                        title='Select File',
+                                        filetypes=(('Excel files','*.xlsx*'),('all files',
+                                                     '*.*')))
+    label_file_explorer.configure(text='File Opened: ' +filenameRead)
+#    return filenameRead
+    
+def browseSaveFiles():
+    global filenameSave
+    filenameSave=filedialog.askopenfilename(initialdir='/',
+                                        title='Select File',
+                                        filetypes=(('Excel files','*.xlsx*'),('all files',
+                                                     '*.*')))
+    label_file_explorer.configure(text='File to Save Results at: ' +filenameSave)
+#    return filenameSave
+    
+def close_window():
+    window.destroy()
+
+
+window=tk.Tk()
+    
+window.title('Magic Super Program')
+
+window.geometry('320x250')
+
+window.config(background='white')
+
+label_file_explorer=tk.Label(window,
+                          text='Get rich!',
+                          width=10, height=4,
+                          fg='blue')
+label_file_explorer.grid(row=1,column=1)
+
+button_explore=tk.Button(window,
+                      text='Choose read file',
+                      command= browseReadFiles)
+button_explore.grid(row=2,column=1)
+
+button_save=tk.Button(window,
+                      text='Choose save file',
+                      command= browseSaveFiles)
+button_save.grid(row=3,column=1)
+
+magic_label=tk.Label(window,
+                  text='Magic Number',
+                  font=('calibre',10,'bold'))
+                  
+magic_label.grid(row=4,column=0)
+
+magic_text=tk.IntVar()
+magic_Entry=tk.Entry(window,
+                 textvariable = magic_text,
+                font=('calibre',10,'bold'))
+
+magic_Entry.grid(row=4,column=1)
+
+bank_label=tk.Label(window,
+                  text='Bank',
+                  font=('calibre',10,'bold'))
+bank_label.grid(row=5,column=0)
+
+bank_text=tk.IntVar()
+bank_Entry=tk.Entry(window,
+                 textvariable = bank_text,
+                font=('calibre',10,'bold'))
+
+bank_Entry.grid(row=5,column=1)
+
+sheet_label=tk.Label(window,
+                  text='Sheet Name in Read File',
+                  font=('calibre',10,'bold'))
+sheet_label.grid(row=6,column=0)
+
+sheet_Name=tk.StringVar()
+sheet_Entry=tk.Entry(window,
+                 textvariable = sheet_Name,
+                font=('calibre',10,'bold'))
+
+sheet_Entry.grid(row=6,column=1)
+
+
+
+button_exit=tk.Button(window,
+                      text='Exit',
+                      command= close_window)
+button_exit.grid(row=8,column=1)
+
+window.mainloop()
+
+#GUI code and functions ends------------------------------------------------------
+
 # import excell. Change if you move the file
-file_location = "D:\Stocks\Aktie_Utdelning.xlsx"
-file_location_write = "D:\Stocks\Result_optimized_bank.xlsx"
+sheet=sheet_Name.get()
+file_location = filenameRead
+file_location_write = filenameSave
 
 data = pd.read_excel(file_location,
-                     sheet_name='Python', keep_default_na=False)
+                     sheet_name=sheet, keep_default_na=False)
 cols = range(1, 13)
 calendar = pd.read_excel(file_location,
-                         sheet_name='Python', usecols=cols, keep_default_na=False)
+                         sheet_name=sheet, usecols=cols, keep_default_na=False)
 stock_rates = pd.read_excel(file_location,
-                            sheet_name='Python', usecols=[15], keep_default_na=False)
+                            sheet_name=sheet, usecols=[15], keep_default_na=False)
 
-magic_number_init = data.loc[0].at['Magic Number']
+magic_number_init=magic_text.get()
 
 data_write = pd.read_excel(file_location_write,
                            sheet_name='Result', keep_default_na=False)
 # The amount of money i have to buy for
-bank_init = data.loc[0].at['Bank']
+bank_init=bank_text.get()
 bank=bank_init
 # initialize
 magic_number = magic_number_init
