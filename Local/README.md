@@ -1,0 +1,41 @@
+# Dependencies
+Python3 or higher
+xlsxwriter
+numpy
+pandas
+networkx
+matplotlib.pyplot
+math
+
+
+#Excell template
+
+Do not change the layout of the template. 
+
+Fill it with your own stocks accordingly.
+
+Columns or rows marked with '*' is autofilled, i.e do not write anything in these.
+
+To get the previous close with the help of excell follow this guide : https://support.microsoft.com/en-us/office/get-a-stock-quote-e5af3212-e024-4d4c-bea0-623cf07fbc54
+
+To extend the graphs click on the graph and click on the third logo from the top, shaped like a cone. Then select "mark data"
+
+Use the "Python" sheet for the program. Simply mark what you want to move from the "Overview" sheet and paste it AS LINK, not just "ctrl + v".
+
+In order to get the stock name correctly working in the program these are not pasted as links but as values, not just "ctrl + v".
+
+By right clicking on where you want to paste it in the python sheet you'll get options of how to paste it, named as "paste options" in the menu.
+
+# Magic_algorithm
+Start the program by double click the "magic_algorithm.py" file.
+
+Choose files accordingly.
+
+Magic number is a number that determines the spread of the stocks you want to buy. High Magic Number => Low spread. Low Magic Number => High spread.
+
+This number is highly connected to the cost of the stocks and the amount of money you have. Test with a few numbers to find the best for your situation.
+
+The result is saved in the "Magic_stock_save_file" if choosen as save file. DO NOT CHOOSE THE SAME READ AND SAVE FILE.
+
+The file that the result is saved to can not be open at the same time as the program runs.
+
