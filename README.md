@@ -1,14 +1,20 @@
 # Dependencies
 Python3 or higher
+
 xlsxwriter
+
 numpy
+
 pandas
+
 networkx
+
 matplotlib.pyplot
+
 math
 
 
-# Excell template
+#Excell template
 
 Do not change the layout of the template. 
 
