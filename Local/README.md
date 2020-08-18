@@ -1,10 +1,17 @@
 # Dependencies
+
 Python3 or higher
+
 xlsxwriter
+
 numpy
+
 pandas
+
 networkx
+
 matplotlib.pyplot
+
 math
 
 
