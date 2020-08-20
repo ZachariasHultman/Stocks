@@ -28,7 +28,7 @@ To extend the graphs click on the graph and click on the third logo from the top
 
 Use the "Python" sheet for the program. Simply mark what you want to move from the "Overview" sheet and paste it AS LINK, not just "ctrl + v".
 
-In order to get the stock name correctly working in the program these are not pasted as links but as values, not just "ctrl + v".
+In order to get the stock name correctly working in the program these are not pasted as links but as values, not just "ctrl + v". When pasted as values you need to double click on each cell to make the litte monument icon disappear
 
 By right clicking on where you want to paste it in the python sheet you'll get options of how to paste it, named as "paste options" in the menu.
 
