@@ -45,3 +45,4 @@ The result is saved in the "Magic_stock_save_file" if choosen as save file. DO N
 
 The file that the result is saved to can not be open at the same time as the program runs.
 
+Due to the nature of combinations and permutations the algorithm computational time is n! 
