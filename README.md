@@ -9,9 +9,9 @@ pandas
 
 networkx
 
-matplotlib.pyplot
+matplotlib
 
-math
+xlrd
 
 
 # Excell template
@@ -32,6 +32,8 @@ In order to get the stock name correctly working in the program these are not pa
 
 By right clicking on where you want to paste it in the python sheet you'll get options of how to paste it, named as "paste options" in the menu.
 
+If you are not using Excel make sure to export it from your program as an ".xslx"-file.
+
 # Magic_algorithm
 Start the program by double click the "magic_algorithm.py" file.
 
@@ -46,3 +48,5 @@ The result is saved in the "Magic_stock_save_file" if choosen as save file. DO N
 The file that the result is saved to can not be open at the same time as the program runs.
 
 Due to the nature of combinations and permutations the algorithm computational time is n! 
+
+If you can't choose the files change the file layout from "(.xlsx)" to "(*all files)"
