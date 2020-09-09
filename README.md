@@ -1,3 +1,6 @@
+# .EXE-FILE
+By running the .exe-file no additional dependencies is needed. Otherwise the listed dependencies are needed
+
 # Dependencies
 Python3 or higher
 
@@ -31,6 +34,8 @@ Use the "Python" sheet for the program. Simply mark what you want to move from t
 In order to get the stock name correctly working in the program these are not pasted as links but as values, not just "ctrl + v". When pasted as values you need to double click on each cell to make the litte monument icon disappear
 
 By right clicking on where you want to paste it in the python sheet you'll get options of how to paste it, named as "paste options" in the menu.
+
+If your program is not working it is possible that the format of the paste is wrong.
 
 If you are not using Excel make sure to export it from your program as an ".xslx"-file.
 

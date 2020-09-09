@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.exe filter=lfs diff=lfs merge=lfs -text
+*magic_algorithm* filter=lfs diff=lfs merge=lfs -text
+Stocks/** filter=lfs diff=lfs merge=lfs -text
