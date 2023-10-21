@@ -94,3 +94,4 @@ If your program is not working it is possible that the format of the paste is wr
 
 If you are not using Excel make sure to export it from your program as an ".xslx"-file.
 # Stocks
+# Stocks
