@@ -9,3 +9,5 @@ Aktie_Utdelning.xlsx
 __pychache__/
 
 venv/
+
+.DS_Store
