@@ -93,5 +93,4 @@ In order to get the stock devidend correctly working in the program these are no
 If your program is not working it is possible that the format of the paste is wrong.
 
 If you are not using Excel make sure to export it from your program as an ".xslx"-file.
-# Stocks
-# Stocks
+
